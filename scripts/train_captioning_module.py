@@ -14,6 +14,14 @@ from model.captioning_module import BiModalTransformer, Transformer
 from utilities.captioning_utils import average_metrics_in_two_dicts, timer
 from utilities.config_constructor import Config
 
+import datetime
+import time
+
+def get_mem_usage(cfg):
+    GB = 1024.0 ** 3
+    output = ["device_%d = %.03fGB" % (device, torch.cuda.max_memory_allocated(torch.device('cuda:%d' % device)) / GB) for device in cfg.device_ids]
+    return ' '.join(output)[:-1]
+
 
 def train_cap(cfg):
     # doing our best to make it replicable
@@ -74,6 +82,7 @@ def train_cap(cfg):
     num_epoch_best_metric_unchanged = 0
 
     for epoch in range(cfg.epoch_num):
+        start_time = time.time()
         print(f'The best metrict was unchanged for {num_epoch_best_metric_unchanged} epochs.')
         print(f'Expected early stop @ {epoch+cfg.early_stop_after-num_epoch_best_metric_unchanged}')
         print(f'Started @ {cfg.curr_time}; Current timer: {timer(cfg.curr_time)}')
@@ -127,6 +136,9 @@ def train_cap(cfg):
                     num_epoch_best_metric_unchanged = 0
                 else:
                     num_epoch_best_metric_unchanged += 1
+
+        print("[Epoch {:03d}] mem {}\t time {}".format(
+            epoch, get_mem_usage(cfg), datetime.timedelta(seconds=time.time() - start_time)))
                     
 
     print(f'{cfg.curr_time}')
