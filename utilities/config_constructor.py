@@ -130,7 +130,7 @@ class Config(object):
         # logging
         self.to_log = args.to_log
         if args.to_log:
-            self.log_dir = os.path.join(args.log_dir, args.procedure)
+            self.log_dir = os.path.join(args.log_dir, args.video_feature_name, args.procedure)
             self.checkpoint_dir = self.log_dir  # the same yes
             # exper_name = self.make_experiment_name()
             exper_name = self.curr_time[2:]

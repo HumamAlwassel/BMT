@@ -44,12 +44,12 @@ class ProposalGenerationDataset(Dataset):
 
         # the dataset filtering is done considering videos only
         print(f'Dataset size (before filtering, {phase}): {len(self.dataset)}')
-        self.filtered_ids_filepath = f'./tmp/filtered_ids_from_{phase}_for{self.modality}.txt'
+        self.filtered_ids_filepath = f'./tmp/{cfg.video_feature_name}_filtered_ids_from_{phase}_for_{self.modality}.txt'
         self.dataset = self.filter_dataset()
 
         if phase in ['train', 'val_1', 'val_2']:
             print(f'Dataset size (after filtering, {phase}): {len(self.dataset)}')
-            self.extracted_targets_path = f'./tmp/extracted_targets_for_{phase}.pkl'
+            self.extracted_targets_path = f'./tmp/{cfg.video_feature_name}_extracted_targets_for_{phase}.pkl'
             self.dataset_targets = self.extract_targets()
 
 

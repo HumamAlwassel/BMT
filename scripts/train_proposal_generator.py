@@ -12,6 +12,16 @@ from utilities.proposal_utils import calc_anchors_using_kmeans
 from utilities.config_constructor import Config
 from utilities.captioning_utils import timer
 
+import datetime
+import time
+
+
+def get_mem_usage(cfg):
+    GB = 1024.0 ** 3
+    output = ["device_%d = %.03fGB" % (device, torch.cuda.max_memory_allocated(torch.device('cuda:%d' % device)) / GB) for device in cfg.device_ids]
+    return ' '.join(output)[:-1]
+
+
 def train_prop(cfg):
     # doing our best to make it replicable
     torch.manual_seed(0)
@@ -79,6 +89,7 @@ def train_prop(cfg):
     num_epoch_best_metric_unchanged = 0
     
     for epoch in range(cfg.epoch_num):
+        start_time = time.time()
         print(f'The best metrict was unchanged for {num_epoch_best_metric_unchanged} epochs.')
         print(f'Expected early stop @ {epoch+cfg.early_stop_after-num_epoch_best_metric_unchanged}')
         print(f'Started @ {cfg.curr_time}; Current timer: {timer(cfg.curr_time)}')
@@ -99,6 +110,8 @@ def train_prop(cfg):
             num_epoch_best_metric_unchanged = 0
         else:
             num_epoch_best_metric_unchanged += 1
-            
+
+        print("[Epoch {:03d}] mem {}\t time {}".format(
+            epoch, get_mem_usage(cfg), datetime.timedelta(seconds=time.time() - start_time)))
 
     print(f'Experiment: {exp_name}')
