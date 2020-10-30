@@ -202,6 +202,8 @@ class AudioVideoFeaturesDataset(Dataset):
         
         if self.video_feature_name == 'i3d_features':
             self.video_feature_size = 1024
+        elif 'r2plus1d' in self.video_feature_name:
+            self.video_feature_size = 512
         else:
             raise Exception(f'Inspect: "{self.video_feature_name}"')
             

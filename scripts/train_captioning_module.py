@@ -34,7 +34,7 @@ def train_cap(cfg):
     # cuda id for training is not 0.
     torch.cuda.set_device(cfg.device_ids[0])
 
-    exp_name = cfg.curr_time[2:]
+    exp_name = cfg.exp_name
 
     train_dataset = ActivityNetCaptionsDataset(cfg, 'train', get_full_feat=False)
     val_1_dataset = ActivityNetCaptionsDataset(cfg, 'val_1', get_full_feat=False)

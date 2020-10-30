@@ -33,7 +33,7 @@ def train_prop(cfg):
     torch.cuda.set_device(cfg.device_ids[0])
 
     # exp_name = cfg.make_experiment_name()
-    exp_name = cfg.curr_time[2:]
+    exp_name = cfg.exp_name
 
     anchors = {}
     if 'audio' in cfg.modality:

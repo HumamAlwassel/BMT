@@ -12,6 +12,7 @@ class Config(object):
         Try not to create anything here: like new forders or something
         '''
         self.curr_time = strftime('%y%m%d%H%M%S', localtime())
+        self.exp_name = args.exp_name
 
         self.procedure = args.procedure
         # dataset
@@ -132,10 +133,9 @@ class Config(object):
         if args.to_log:
             self.log_dir = os.path.join(args.log_dir, args.video_feature_name, args.procedure)
             self.checkpoint_dir = self.log_dir  # the same yes
-            # exper_name = self.make_experiment_name()
-            exper_name = self.curr_time[2:]
-            self.log_path = os.path.join(self.log_dir, exper_name)
-            self.model_checkpoint_path = os.path.join(self.checkpoint_dir, exper_name)
+            # exp_name = self.make_experiment_name()
+            self.log_path = os.path.join(self.log_dir, self.exp_name)
+            self.model_checkpoint_path = os.path.join(self.checkpoint_dir, self.exp_name)
         else:
             self.log_dir = None
             self.log_path = None

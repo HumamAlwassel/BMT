@@ -102,6 +102,7 @@ if __name__ == "__main__":
                         help='max feature length to pad other features to')
     parser.add_argument('--nms_tiou_thresh', type=float, help='non-max suppression objectness thr')
     parser.add_argument('--log_dir', type=str, default='./log/')
+    parser.add_argument('--exp_name', type=str, required=True, help='experiment name')
 
     ## EVALUATION
     parser.add_argument('--prop_pred_path', type=str, help='path to a .json file with prop preds')
